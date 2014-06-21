@@ -16,6 +16,19 @@ public class Node
         this.dato = dato;
         _edges = new ArrayList<Edge>();
     }
+    
+    public boolean containsNode(Node pNode)
+    {
+        
+        for(int position = 0; position < _edges.size(); position ++  )
+        {
+            if(pNode.equals(_edges.get(position).getNode()))
+                return true;
+        }
+        
+        return false;
+    }
+    
     public void setDato(Object dato){
         this.dato = dato;
     }

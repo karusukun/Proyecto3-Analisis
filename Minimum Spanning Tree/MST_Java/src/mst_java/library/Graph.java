@@ -16,20 +16,49 @@ public class Graph{
     public void addNode(Node pNode){
         _nodeList.add(pNode);
     }
-    public void createEdges(Object nombreNodoPadre,Object nombreNodoHijo){
-        Node _father = searchNode(nombreNodoPadre);      
-        Node son = searchNode(nombreNodoHijo);
+    public void createEdges(Node NodoPadre,Node NodoHijo){
+        Node _father = searchNode(NodoPadre);      
+        Node son = searchNode(NodoHijo);
         if(_father != null && son != null){
             _father.setNode(son, _random.nextInt(10) + 4 );
         }
     }
-    public Node searchNode(Object nodeName){
+    public Node searchNode(Node nodeName){
         Node temp = null;
-        for(int i = 0;i < _nodeList.size(); i++){
-            if(((String)nodeName).equals((String)_nodeList.get(i).getDato())){
-                return _nodeList.get(i);
+        for(int position = 0;position < _nodeList.size(); position++){
+            if(nodeName.equals(_nodeList.get(position))){
+                return _nodeList.get(position);
             }
         }
         return temp;
+    }
+    
+    public void generateGraph(int pSize)
+    {        
+        if(pSize > 200 || pSize <= 0 )
+            return;
+        else
+        {
+            for(int nodeAmmount = 1; nodeAmmount <= pSize; nodeAmmount++)
+            {
+                Node newNode = new Node();
+                addNode(newNode);
+                int edgesNumber = _random.nextInt(3);
+                
+                for(int edgesAdded = 0; edgesAdded < edgesNumber; edgesAdded++)
+                {
+                    Node tempNode = _nodeList.get(_random.nextInt(_nodeList.size()));
+                    
+                    while(!newNode.containsNode(tempNode))
+                    {
+                        tempNode = _nodeList.get(_random.nextInt(_nodeList.size()));
+                    }
+                    
+                    createEdges(newNode, tempNode);
+                    
+                }
+              
+            }            
+        }
     }
 }
