@@ -9,3 +9,14 @@ C:\Users\Karusu\Documents\GitHub\Proyecto3-Analisis\Facebook friends\FbSocialChe
 C:\Users\Karusu\Documents\GitHub\Proyecto3-Analisis\Facebook friends\FbSocialCheck\FbSocialCheck\bin\Debug\Facebook.xml
 C:\Users\Karusu\Documents\GitHub\Proyecto3-Analisis\Facebook friends\FbSocialCheck\FbSocialCheck\obj\Debug\FbSocialCheck.exe
 C:\Users\Karusu\Documents\GitHub\Proyecto3-Analisis\Facebook friends\FbSocialCheck\FbSocialCheck\obj\Debug\FbSocialCheck.pdb
+C:\Programing\Projects\Proyecto3-Analisis\Facebook friends\FbSocialCheck\FbSocialCheck\bin\Debug\FbSocialCheck.exe.config
+C:\Programing\Projects\Proyecto3-Analisis\Facebook friends\FbSocialCheck\FbSocialCheck\obj\Debug\FbSocialCheck.exe
+C:\Programing\Projects\Proyecto3-Analisis\Facebook friends\FbSocialCheck\FbSocialCheck\obj\Debug\FbSocialCheck.pdb
+C:\Programing\Projects\Proyecto3-Analisis\Facebook friends\FbSocialCheck\FbSocialCheck\bin\Debug\FbSocialCheck.exe
+C:\Programing\Projects\Proyecto3-Analisis\Facebook friends\FbSocialCheck\FbSocialCheck\bin\Debug\FbSocialCheck.pdb
+C:\Programing\Projects\Proyecto3-Analisis\Facebook friends\FbSocialCheck\FbSocialCheck\bin\Debug\Facebook.dll
+C:\Programing\Projects\Proyecto3-Analisis\Facebook friends\FbSocialCheck\FbSocialCheck\bin\Debug\Facebook.xml
+C:\Programing\Projects\Proyecto3-Analisis\Facebook friends\FbSocialCheck\FbSocialCheck\obj\Debug\FbSocialCheck.csprojResolveAssemblyReference.cache
+C:\Programing\Projects\Proyecto3-Analisis\Facebook friends\FbSocialCheck\FbSocialCheck\obj\Debug\FbSocialCheck.Properties.Resources.resources
+C:\Programing\Projects\Proyecto3-Analisis\Facebook friends\FbSocialCheck\FbSocialCheck\obj\Debug\FbSocialCheck.View.MainView.resources
+C:\Programing\Projects\Proyecto3-Analisis\Facebook friends\FbSocialCheck\FbSocialCheck\obj\Debug\FbSocialCheck.csproj.GenerateResource.Cache
