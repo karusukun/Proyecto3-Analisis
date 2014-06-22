@@ -34,6 +34,7 @@
             this.list_users = new System.Windows.Forms.ListBox();
             this.combo_filters = new System.Windows.Forms.ComboBox();
             this.btn_filter = new System.Windows.Forms.Button();
+            this.btn_Refresh = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -83,7 +84,7 @@
             // 
             // btn_filter
             // 
-            this.btn_filter.Location = new System.Drawing.Point(997, 49);
+            this.btn_filter.Location = new System.Drawing.Point(961, 49);
             this.btn_filter.Name = "btn_filter";
             this.btn_filter.Size = new System.Drawing.Size(75, 23);
             this.btn_filter.TabIndex = 4;
@@ -91,11 +92,22 @@
             this.btn_filter.UseVisualStyleBackColor = true;
             this.btn_filter.Click += new System.EventHandler(this.btn_filter_Click);
             // 
+            // btn_Refresh
+            // 
+            this.btn_Refresh.Location = new System.Drawing.Point(1053, 48);
+            this.btn_Refresh.Name = "btn_Refresh";
+            this.btn_Refresh.Size = new System.Drawing.Size(75, 23);
+            this.btn_Refresh.TabIndex = 5;
+            this.btn_Refresh.Text = "Refresh";
+            this.btn_Refresh.UseVisualStyleBackColor = true;
+            this.btn_Refresh.Click += new System.EventHandler(this.btn_Refresh_Click);
+            // 
             // MainView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1158, 625);
+            this.Controls.Add(this.btn_Refresh);
             this.Controls.Add(this.btn_filter);
             this.Controls.Add(this.combo_filters);
             this.Controls.Add(this.list_users);
@@ -116,6 +128,7 @@
         private System.Windows.Forms.ListBox list_users;
         private System.Windows.Forms.ComboBox combo_filters;
         private System.Windows.Forms.Button btn_filter;
+        private System.Windows.Forms.Button btn_Refresh;
 
     }
 }

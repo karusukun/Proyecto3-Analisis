@@ -7,27 +7,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Management;
 using Facebook;
 using System.Threading;
 using System.Dynamic;
+using FbSocialCheck.Library;
 
 namespace FbSocialCheck.View
 {
     public partial class MainView : Form
     {
-        public String access_token;
-        private DateTime fechaAct;
-        private Dictionary<string, int> filterOptionMultiplex;
+        private String _access_token;
+        private DateTime _fechaAct;
+        private Dictionary<string, int> _filterOptionMultiplex;
+        private List<string> _refreshList;
 
         public MainView()
         {
-            filterOptionMultiplex = new Dictionary<string, int>();
+            _refreshList = new List<string>(); 
+            _filterOptionMultiplex = new Dictionary<string, int>();
 
-            filterOptionMultiplex.Add("Year",0);
-            filterOptionMultiplex.Add("Month", 1);
-            filterOptionMultiplex.Add("Week", 2);
+            _filterOptionMultiplex.Add("Year",0);
+            _filterOptionMultiplex.Add("Month", 1);
+            _filterOptionMultiplex.Add("Week", 2);
             
-            fechaAct = DateTime.Now;
+            _fechaAct = DateTime.Now;
             InitializeComponent();
             
             this.combo_filters.Items.Add("Year");
@@ -55,18 +59,9 @@ namespace FbSocialCheck.View
             {
                 string url1 = this.WebFbLoginBrowser.Url.AbsoluteUri;
                 string url2 = url1.Substring(url1.IndexOf("access_token") + 13);
-                access_token = url2.Substring(0, url2.IndexOf("&"));
+                _access_token = url2.Substring(0, url2.IndexOf("&"));
 
-                FacebookClient fb = new FacebookClient(access_token);
-
-                dynamic data = fb.Get("/me");
-
-                string ID = data.id;
-                string NAME = data.name;
-                string imgURL = string.Format("http://graph.facebook.com/{0}/picture&type=normal", ID);
-
-                //MessageBox.Show("ID = " + data.id+ " Nombre "+ data.name);
-
+                FacebookClient fb = new FacebookClient(_access_token);
                 
                 this.btn_filter.Enabled = true;
                
@@ -74,33 +69,39 @@ namespace FbSocialCheck.View
             
         }
 
-        private void evaluateList(int converCount, dynamic conversations, int option, string myName, int evaluator)
+        private void evaluateList(object info)
         {
-            for (int position = 0; position < converCount; position++)
+
+            
+            FacebookInfo information = (FacebookInfo)info;
+            for (int position = 0; position < information.getConverCount(); position++)
             {
-                //MessageBox.Show("prueba, "+ conversations.data[0].updated_time );
-                string fecha = (string)conversations.data[position].updated_time;
-                string subFecha = fecha.Substring(0, fecha.IndexOf("T"));
-
-                string[] splitedDate = subFecha.Split('-');
-
-                //MessageBox.Show("mes: "+ splitedDate[1] );
-                if (int.Parse(splitedDate[option]) == evaluator && conversations.data[position] != null)
+                if (information.getConversations().data[position] != null)
                 {
-                    string nameToAdd = conversations.data[position].participants.data[0].name;
-                    if (myName.Equals(nameToAdd))
-                        nameToAdd = conversations.data[position].participants.data[1].name;
-                    conversations.data[position] = null;
-                    this.list_users.Items.Add(nameToAdd);
+                    //MessageBox.Show("prueba, "+ conversations.data[0].updated_time );
+                    string fecha = (string)information.getConversations().data[position].updated_time;
+                    string subFecha = fecha.Substring(0, fecha.IndexOf("T"));
+
+                    string[] splitedDate = subFecha.Split('-');
+
+                    //MessageBox.Show("mes: "+ splitedDate[1] );
+                    if (int.Parse(splitedDate[information.getOption()]) == information.getEvaluator())
+                    {
+                        string nameToAdd = information.getConversations().data[position].participants.data[0].name;
+                        if (information.getMyName().Equals(nameToAdd))
+                            nameToAdd = information.getConversations().data[position].participants.data[1].name;
+                        information.getConversations().data[position] = null;
+                        _refreshList.Add(nameToAdd);
+                    }
                 }
             }
         }
 
         private void btn_filter_Click(object sender, EventArgs e)
         {
-            list_users.Items.Clear();   
-            int option = filterOptionMultiplex[combo_filters.Text];
-            FacebookClient fb = new FacebookClient(access_token);
+            _refreshList.Clear();
+            int option = _filterOptionMultiplex[combo_filters.Text];
+            FacebookClient fb = new FacebookClient(_access_token);
             dynamic conversations = fb.Get("me/conversations?fields=participants,updated_time");
             dynamic myself = fb.Get("/me");
             string myName = (string) myself.name;
@@ -110,22 +111,45 @@ namespace FbSocialCheck.View
             switch (option)
             { 
                 case 0:
-                    evaluator = fechaAct.Year;
+                    evaluator = _fechaAct.Year;
                     break;
                 case 1:
-                    evaluator = fechaAct.Month;
+                    evaluator = _fechaAct.Month;
                     break;
                 case 2:
-                    evaluator = fechaAct.Day;
+                    evaluator = _fechaAct.Day;
                     break;
                 default:
                     evaluator = 0;
                     break;
             }
-            
-            evaluateList(conversationCount, conversations, option, myName, evaluator);
+
+            int coreCount = 0;
+            FacebookInfo info = new FacebookInfo(conversationCount,evaluator,option,myName,conversations);
+
+            foreach (var item in new System.Management.ManagementObjectSearcher("Select NumberOfCores from Win32_Processor").Get())
+            {
+                coreCount += int.Parse(item["NumberOfCores"].ToString());
+            }
+            Console.WriteLine("Number Of Cores: {0}", coreCount);        
+
+            Thread thread1 = new Thread(this.evaluateList);
+            Thread thread2 = new Thread(this.evaluateList);
+
+            thread1.Start(info);
+            thread2.Start(info);
                        
 
+        }
+
+        private void btn_Refresh_Click(object sender, EventArgs e)
+        {
+            
+            list_users.Items.Clear();
+            for (int position = 0; position < _refreshList.Count; position++)
+            {
+                this.list_users.Items.Add(_refreshList.ElementAt(position));
+            }
         }
 
 
